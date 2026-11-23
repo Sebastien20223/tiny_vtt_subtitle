@@ -40,3 +40,10 @@ may not raise an error.  Strict validation is left to the caller.
 Cue payloads are stored as a list of lines.  An empty payload is `[]`, while a
 payload containing a single empty line is `[""]`.  Serializing a cue with an
 empty payload produces a cue with no text line, which round-trips correctly.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
